@@ -1,23 +1,136 @@
-var jsonUtils = require('./jsonutils.js');
+var jsonutil = require('./jsonutils.js');
+var expect = require('expect.js');
 
-exports.testSomething = function(test){
-
-  var expected = 100;
-  var o = {
-    A: {
-      B:{
-        C:{
-          id: 100
+describe('Json traversing', function () {
+  it('goToElement object in array', function () {
+    var json = {
+      aaa: [
+        {
+          bbb: 'ccc'
+        },
+        {
+          bbb: 'ddd'
         }
+      ]
+    };
+
+    var ccc = 0;
+    var ddd = 0;
+
+    jsonutil.goToElement(json, [ 'aaa', '0', 'bbb' ], function (nested) {
+      if (nested === 'ccc') {
+        ccc++;
+      } else if (nested === 'ddd') {
+        ddd++;
       }
-    }
-  };
+    });
+    expect(ccc).to.eql(1);
+    expect(ddd).to.eql(0);
 
-  jsonUtils.goToElement(o, ['A','B','C','id'], function (json) {
-    var actual = json;
-
-    test.equal(actual, expected, "Values not equal");
-    test.done();
+    jsonutil.goToElement(json, [ 'aaa', '1', 'bbb' ], function (nested) {
+      if (nested === 'ccc') {
+        ccc++;
+      } else if (nested === 'ddd') {
+        ddd++;
+      }
+    });
+    expect(ccc).to.eql(1);
+    expect(ddd).to.eql(1);
   });
-};
+
+
+  it('goToElement object nested in array', function () {
+    var json = {
+      aaa: [
+        {
+          ccc: {
+            eee: 42
+          }
+        }
+      ]
+    };
+    jsonutil.goToElement(json, [ 'aaa', '0', 'ccc', 'eee' ], function (nested) {
+      expect(nested).to.eql(42);
+    });
+  });
+
+  it('goToElement nested object', function () {
+    var json = {
+      aaa: {
+        bbb: [
+          {
+            ccc: 'ccc'
+          }
+        ]
+      }
+    };
+
+    jsonutil.goToElement(json, [ 'aaa', 'bbb', '0' ], function (nested) {
+      expect(nested).to.eql({ ccc: 'ccc' });
+    });
+  });
+
+  it('goToElement nested arrays', function () {
+    var json = {
+      aaa: [
+        'foo',
+        [
+          {
+            bbb: 'ccc'
+          },
+          {
+            bbb: 'ddd'
+          }
+        ]
+      ]
+    };
+
+    var ccc = 0;
+    var ddd = 0;
+
+    jsonutil.goToElement(json, [ 'aaa', '1', '0', 'bbb' ], function (nested) {
+      if (nested === 'ccc') {
+        ccc++;
+      } else if (nested === 'ddd') {
+        ddd++;
+      }
+    });
+    expect(ccc).to.eql(1);
+    expect(ddd).to.eql(0);
+
+    jsonutil.goToElement(json, [ 'aaa', '1', '1', 'bbb' ], function (nested) {
+      if (nested === 'ccc') {
+        ccc++;
+      } else if (nested === 'ddd') {
+        ddd++;
+      }
+    });
+    expect(ccc).to.eql(1);
+    expect(ddd).to.eql(1);
+  });
+});
+
+describe('Error handling', function () {
+  describe('with goToElement', function () {
+    it('bad path 1', function () {
+      var json = {
+        aaa: 'bbb'
+      };
+
+      expect(jsonutil.goToElement).withArgs(json, [ 'aaa', 'bbb' ]).to.throwException(/unexpected json type/i);
+    });
+
+    it('bad path 2', function () {
+      var json = {
+        aaa: 'bbb'
+      };
+
+      expect(jsonutil.goToElement).withArgs(json, [ 'ccc' ]).to.throwException(/no property=\[ccc\]/i);
+    });
+  });
+
+
+});
+
+
 

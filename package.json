@@ -4,7 +4,7 @@
   "description": "Small utility lib",
   "main": "jsonutils.js",
   "scripts": {
-    "test": "nodeunit tests.js"
+    "test": "mocha tests.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/szydan/jsonutils",
   "devDependencies": {
+    "expect.js": "~0.3.1",
+    "mocha": "^2.2.5",
     "nodeunit": "^0.9.1"
   }
 }
