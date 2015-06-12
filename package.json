@@ -1,0 +1,26 @@
+{
+  "name": "jsonutils",
+  "version": "1.0.0",
+  "description": "Small utility lib",
+  "main": "jsonutils.js",
+  "scripts": {
+    "test": "nodeunit tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/szydan/jsonutils.git"
+  },
+  "keywords": [
+    "json",
+    "utils"
+  ],
+  "author": "Szymon Danielczyk <danielczyk.szymon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/szydan/jsonutils/issues"
+  },
+  "homepage": "https://github.com/szydan/jsonutils",
+  "devDependencies": {
+    "nodeunit": "^0.9.1"
+  }
+}

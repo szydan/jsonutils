@@ -1,0 +1,27 @@
+{
+  "name": "jsonutils",
+  "main": "jsonutils.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/szydan/jsonutils",
+  "authors": [
+    "Szymon Danielczyk <danielczyk.szymon@gmail.com>"
+  ],
+  "description": "Small utility lib",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "json",
+    "utils"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
